@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy container to Azure Web App
+name: Build and push container image
 
 on:
   push:
@@ -18,7 +18,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -40,10 +40,3 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'course-registration-system'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A92CC119DF6F4F748A034EAEFD1320C3 }}
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
